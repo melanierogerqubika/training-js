@@ -55,17 +55,7 @@ procesarEstudiantes(estudiantes, esAprobado).forEach((estudiante) => {
   console.log();
 });
 
-// Paso 5: Usar labels con for anidado para buscar estudiante
-buscarEstudiante: for (let i = 0; i < estudiantes.length; i++) {
-  for (let j = 0; j < estudiantes[i].calificaciones.length; j++) {
-    if (estudiantes[i].nombre === "Carlos") {
-      console.log("Estudiante Carlos encontrado");
-      break buscarEstudiante;
-    }
-  }
-}
-
-// Paso 6: Para todos los pasos anteriores utilizamos un array con object literals.
+// Paso 5: Para todos los pasos anteriores utilizamos un array con object literals.
 // Ahora tenemos que crear un object constructor.
 // El constructor debe seguir la siguiente firma "Estudiante(nombre, calificaciones)"
 // Ambos parametros pueden ser undefined o vacios, en dichos casos debemos asignar "Desconocido" al nombre
