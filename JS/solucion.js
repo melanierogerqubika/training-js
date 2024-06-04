@@ -92,12 +92,21 @@ function calcularPromedio(array){
 let esAprobado = (promedio) => promedio >= 6;
 
 for (let i = 0; i < estudiantes.length; i++){
-  let promedio = calcularPromedio(estudiantes[i].calificaciones);//promedio de cada estudiant
+  let promedio = calcularPromedio(estudiantes[i].calificaciones);//promedio de cada estudiante
   console.log(promedio)
   console.log(esAprobado(promedio))
   estudiantes[i].aprueba = esAprobado(promedio);
-  console.log(estudiantes);
+  console.log((estudiantes[i].aprueba) ? "Aprobado" : "Reprobado");
 }
+
+//o con for each
+estudiantes.forEach((estudiante) => {
+  let promedio = calcularPromedio(estudiante.calificaciones);
+  console.log(promedio);
+  console.log(esAprobado(promedio));
+  estudiante.aprueba = esAprobado(promedio);
+  console.log((estudiante.aprueba) ? "Aprobado" : "Reprobado");
+});
 
 // Paso 3: Usando la funcion de array que creas mas conveniente devolver un nuevo array
 // el cual contenga los mismos estudiantes, pero agregando a cada uno, una nueva propiedad llamada
@@ -112,9 +121,6 @@ function procesarEstudiantes(estudiantes, callback) {}
 // Paso 4: Usando operador ternario imprimir en el console log las palabras "Aprobado", "Reprobado"
 // segun corresponda al valor de "aprueba" definido en el ejercicio anterior
 
-procesarEstudiantes(estudiantes, esAprobado).forEach((estudiante) => {
-  console.log((estudiante.aprueba) ? "Aprobado" : "Reprobado");
-});
 
 
 // Paso 5: Para todos los pasos anteriores utilizamos un array con object literals.
