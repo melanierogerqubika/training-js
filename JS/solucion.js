@@ -1,11 +1,10 @@
 // Set 1 -> Arrays
 const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-
 // 1. Implementa una función de expresión que tome el siguiente array y devuelva un nuevo array con solo los números pares.
 const arrayAFiltrar = [1, 10, 3, 4, 80, 120, 2, 55, 70];
 
-function pares(array){
+function pares(array) {
   let pares = [];
   for (let i = 0; i < array.length; i++) {
     if (array[i] % 2 === 0) {
@@ -15,49 +14,66 @@ function pares(array){
   return pares;
 }
 
+function paresOpt2(arr) {
+  return arr.filter((val) => val % 2 === 0);
+}
+
 document.querySelector("#resultado1").innerHTML = `${pares(arrayAFiltrar)}`;
-
-
-
 
 // 2. Dado el array "numeros" y usando array.reduce() retornar la suma de todos ellos:
 
 // nota: array.reduce(function(total, currentValue, currentIndex, arr), initialValue)
 
-function arrayReduceSumar(total, numero){
-    return total + numero
+function arrayReduceSumar(total, numero) {
+  return total + numero;
 }
 
-document.querySelector("#resultado2").innerHTML = `${numeros.reduce(arrayReduceSumar)}`;
-
+document.querySelector("#resultado2").innerHTML = `${numeros.reduce(
+  arrayReduceSumar
+)}`;
 
 // 3. Dado el array "numeros", devolver cada valor al cuadrado
 
-function cuadrado(array){
-    let numerosCuadrados = [];
-    for (let i = 0; i < array.length; i++) {
-        let numCuadrado = parseInt(array[i]);
-        numCuadrado = numCuadrado * numCuadrado;
-        numerosCuadrados.push(numCuadrado);
-    }
-    return numerosCuadrados;
+function cuadrado(array) {
+  let numerosCuadrados = [];
+  for (let i = 0; i < array.length; i++) {
+    let numCuadrado = parseInt(array[i]);
+    numCuadrado = numCuadrado * numCuadrado;
+    numerosCuadrados.push(numCuadrado);
   }
-  
-  document.querySelector("#resultado3").innerHTML = `${cuadrado(numeros)}`;
+  return numerosCuadrados;
+}
 
+function cuadradoOpt2(arr) {
+  return arr.map((num) => num * num);
+}
+
+document.querySelector("#resultado3").innerHTML = `${cuadrado(numeros)}`;
 
 //4. Combina todas las funciones anteriores para filtrar los números pares, luego sumar los números pares, y finalmente aplicar una operación (por ejemplo, duplicar el valor) usando un callback.
 
-function combinarFunciones(array){
-    let combinar = pares(arrayAFiltrar);
-    combinar = [combinar.reduce(arrayReduceSumar)]; // nota le agregue [] para combertir el valor resultante del reduce a un array
-    combinar = cuadrado(combinar)
-    return combinar
-
+function combinarFunciones(array) {
+  let combinar = pares(arrayAFiltrar);
+  combinar = [combinar.reduce(arrayReduceSumar)]; // nota le agregue [] para combertir el valor resultante del reduce a un array
+  combinar = cuadrado(combinar);
+  return combinar;
 }
 
-document.querySelector("#resultado4").innerHTML = `${combinarFunciones(numeros)}`;
+function combinarOpt2(arr, callback) {
+  const soloPares = pares(arr);
+  const sumaPares = soloPares.reduce(arrayReduceSumar);
+  const cuadradoPar = cuadrado([sumaPares]);
+  return callback(cuadradoPar);
+}
 
+// document.querySelector("#resultado4").innerHTML = `${combinarFunciones(
+//   numeros
+// )}`;
+
+document.querySelector("#resultado4").innerHTML = `-> ${combinarOpt2(
+  arrayAFiltrar,
+  (numero) => numero / 2
+)}`;
 
 // Set 2 -> Procesamiento de datos de estudiantes
 
@@ -80,23 +96,27 @@ const estudiantes = [
 // Paso 1: Función de expresión que internamete use un array.reduce(*)
 // para calcular promedio (Usar nombre "calcularPromedio" ya que sera usada en el ejercicio 3)
 
-
-function calcularPromedio(array){
+function calcularPromedio(array) {
   let suma = array.reduce((total, valorActual) => total + valorActual, 0);
-  let promedio = suma/array.length;
-  return promedio
-} 
+  let promedio = suma / array.length;
+  return promedio;
+}
 
+function calcularPromedioOpt2(array) {
+  const suma = array.reduce((total, valorActual) => total + valorActual, 0);
+  return suma / array.length;
+}
 
 // Paso 2: Arrow function para verificar si el estudiante pasa (usar como nombre de funcion "esAprobado" se usara en el siguiente ejercicio)
 let esAprobado = (promedio) => promedio >= 6;
+const esAprobadoOpt2 = (promedio) => promedio >= 6;
 
-for (let i = 0; i < estudiantes.length; i++){
-  let promedio = calcularPromedio(estudiantes[i].calificaciones);//promedio de cada estudiante
-  console.log(promedio)
-  console.log(esAprobado(promedio))
+for (let i = 0; i < estudiantes.length; i++) {
+  let promedio = calcularPromedio(estudiantes[i].calificaciones); //promedio de cada estudiante
+  console.log(promedio);
+  console.log(esAprobado(promedio));
   estudiantes[i].aprueba = esAprobado(promedio);
-  console.log((estudiantes[i].aprueba) ? "Aprobado" : "Reprobado");
+  console.log(estudiantes[i].aprueba ? "Aprobado" : "Reprobado");
 }
 
 //o con for each
@@ -105,14 +125,12 @@ estudiantes.forEach((estudiante) => {
   console.log(promedio);
   console.log(esAprobado(promedio));
   estudiante.aprueba = esAprobado(promedio);
-  console.log((estudiante.aprueba) ? "Aprobado" : "Reprobado");
+  console.log(estudiante.aprueba ? "Aprobado" : "Reprobado");
 });
 
 // Paso 3: Usando la funcion de array que creas mas conveniente devolver un nuevo array
 // el cual contenga los mismos estudiantes, pero agregando a cada uno, una nueva propiedad llamada
 // "aprueba" cuyo valor seria la respuesta de la funcion creada en el ejercicio anterior ("esAprobado")
-// Datos extra:
-// La siguiente funcion tiene errores, en ocaciones funcionara bien y en otras no, buscar y fixear esos errores.
 function procesarEstudiantes(estudiantes, callback) {}
 
 // procesarEstudiantes(estudiantes, "aprueba")
@@ -121,8 +139,6 @@ function procesarEstudiantes(estudiantes, callback) {}
 // Paso 4: Usando operador ternario imprimir en el console log las palabras "Aprobado", "Reprobado"
 // segun corresponda al valor de "aprueba" definido en el ejercicio anterior
 
-
-
 // Paso 5: Para todos los pasos anteriores utilizamos un array con object literals.
 // Ahora tenemos que crear un object constructor.
 // El constructor debe seguir la siguiente firma "Estudiante(nombre, calificaciones)"
@@ -130,10 +146,17 @@ function procesarEstudiantes(estudiantes, callback) {}
 // y un array vacio a las calificaciones.
 
 function Estudiante(nombre, calificaciones) {
-  this.nombre = (nombre !== undefined && nombre !== "") ? nombre : "Desconocido";
-  this.calificaciones = (calificaciones !== undefined && calificaciones.length > 0) ? calificaciones : [];
+  this.nombre = nombre !== undefined && nombre !== "" ? nombre : "Desconocido";
+  this.calificaciones =
+    calificaciones !== undefined && calificaciones.length > 0
+      ? calificaciones
+      : [];
 }
 
+function EstudianteOpt2(nombre, calificaciones) {
+  this.nombre = nombre ?? "Desconocido";
+  this.calificaciones = calificaciones || [];
+}
 
 const estudianteDesconocido = new Estudiante();
 const estudianteConNombre = new Estudiante("Pedro", [7, 8, 6]);
