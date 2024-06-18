@@ -93,6 +93,8 @@ const estudiantes = [
   { nombre: "Silvia", calificaciones: [10, 8, 9] },
 ];
 
+console.log("estudiantes: " + estudiantes);
+
 // Paso 1: Función de expresión que internamete use un array.reduce(*)
 // para calcular promedio (Usar nombre "calcularPromedio" ya que sera usada en el ejercicio 3)
 
@@ -114,7 +116,7 @@ const esAprobadoOpt2 = (promedio) => promedio >= 6;
 for (let i = 0; i < estudiantes.length; i++) {
   let promedio = calcularPromedio(estudiantes[i].calificaciones); //promedio de cada estudiante
   console.log(promedio);
-  console.log(esAprobado(promedio));
+  console.log("es aprobado: " + esAprobado(promedio));
   estudiantes[i].aprueba = esAprobado(promedio);
   console.log(estudiantes[i].aprueba ? "Aprobado" : "Reprobado");
 }
@@ -128,13 +130,26 @@ estudiantes.forEach((estudiante) => {
   console.log(estudiante.aprueba ? "Aprobado" : "Reprobado");
 });
 
+
 // Paso 3: Usando la funcion de array que creas mas conveniente devolver un nuevo array
 // el cual contenga los mismos estudiantes, pero agregando a cada uno, una nueva propiedad llamada
 // "aprueba" cuyo valor seria la respuesta de la funcion creada en el ejercicio anterior ("esAprobado")
-function procesarEstudiantes(estudiantes, callback) {}
+//function procesarEstudiantes(estudiantes, callback) {}
 
-// procesarEstudiantes(estudiantes, "aprueba")
-// procesarEstudiantes(estudiantes, esAprobado)
+function procesarEstudiantes(estudiantes, callback) {
+  return estudiantes.map((estudiante) => {
+        console.log("---------------------");
+    const promedio = calcularPromedio(estudiante.calificaciones);
+        console.log(promedio);
+    estudiante.aprueba = callback(promedio)  ? "Aprobado" : "Reprobado";
+        console.log(estudiante.aprueba);
+        console.log("---------------------");
+    return estudiante;
+  });
+}
+
+const estudiantesProcesados = procesarEstudiantes(estudiantes, esAprobado);
+
 
 // Paso 4: Usando operador ternario imprimir en el console log las palabras "Aprobado", "Reprobado"
 // segun corresponda al valor de "aprueba" definido en el ejercicio anterior
