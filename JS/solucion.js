@@ -138,17 +138,15 @@ estudiantes.forEach((estudiante) => {
 
 function procesarEstudiantes(estudiantes, callback) {
   return estudiantes.map((estudiante) => {
-        console.log("---------------------");
     const promedio = calcularPromedio(estudiante.calificaciones);
-        console.log(promedio);
     estudiante.aprueba = callback(promedio)  ? "Aprobado" : "Reprobado";
         console.log(estudiante.aprueba);
-        console.log("---------------------");
     return estudiante;
   });
 }
 
 const estudiantesProcesados = procesarEstudiantes(estudiantes, esAprobado);
+console.log("estudiantesProcesados:" + JSON.stringify(estudiantesProcesados));
 
 
 // Paso 4: Usando operador ternario imprimir en el console log las palabras "Aprobado", "Reprobado"
