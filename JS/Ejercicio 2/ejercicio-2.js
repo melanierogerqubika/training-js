@@ -12,98 +12,162 @@
 // 2 -> Usando fetch y esta url "https://api.restful-api.dev/objects/7" obtener el recurso e imprimirlo.
 
 // 3 -> Ejecuta ambas promesas en paralelo.
-//explicar el porque 
+//explicar el porque
 
 // 4 -> Convertir los ejemplos generados en el punto uno y dos, a la sintaxis async/await (tene en cuenta el manejo de errores)
-
-
-
 
 // Ejercicio 1 -----------------------------------------------------
 let exito = Math.random() > 0.5;
 
-const obtenerDatos = new Promise(function(resolve, reject) {
-    setTimeout(function() {
-        if (exito) {
-            resolve("Datos obtenidos con éxito");
-        } else {
-            reject("Error al obtener los datos");
-        }
+// Esto esta bien
+// Lo de a abajo es solo otra manera
+// const obtenerDatos = new Promise(function(resolve, reject) {
+//     setTimeout(function() {
+//         if (exito) {
+//             resolve("Datos obtenidos con éxito");
+//         } else {
+//             reject("Error al obtener los datos");
+//         }
+//     }, 2000);
+// });
+
+// obtenerDatos.then(function(mensaje) {
+//     console.log("Ejercicio 1: " + mensaje);
+// })
+
+// obtenerDatos.catch(function(error) {
+//     console.error("Ejercicio 1: " + error);
+// });
+
+// Corrección
+
+const obtenerDatos = () =>
+  new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      if (exito) {
+        resolve("Datos obtenidos con éxito");
+      } else {
+        reject("Error al obtener los datos");
+      }
     }, 2000);
-});
+  });
 
-obtenerDatos.then(function(mensaje) {
+obtenerDatos()
+  .then(function (mensaje) {
     console.log("Ejercicio 1: " + mensaje);
-})
-
-obtenerDatos.catch(function(error) {
+  })
+  .catch(function (error) {
     console.error("Ejercicio 1: " + error);
-});
+  });
+
 //----------------------------------------------------------------
 
-
 // Ejercicio 4 obtenerDatosAsync ---------------------------------
-async function obtenerDatosAsync() {
-    try {
-        await new Promise(function(resolve, reject) {
-                setTimeout(function() {
-                    if (exito) {
-                        resolve("Datos obtenidos con éxito");
-                    } else {
-                        reject("Error al obtener los datos");
-                    }
-                }, 2000);
-            });
-        console.log("Ejercicio 4 promise: " + "Datos obtenidos con éxito");
+// async function obtenerDatosAsync() {
+//     try {
+//         await new Promise(function(resolve, reject) {
+//                 setTimeout(function() {
+//                     if (exito) {
+//                         resolve("Datos obtenidos con éxito");
+//                     } else {
+//                         reject("Error al obtener los datos");
+//                     }
+//                 }, 2000);
+//             });
+//         console.log("Ejercicio 4 promise: " + "Datos obtenidos con éxito");
 
-    }catch(err) {
-        console.error("Ejercicio 4 promise: " + "Error al obtener los datos");
-    }
+//     }catch(err) {
+//         console.error("Ejercicio 4 promise: " + "Error al obtener los datos");
+//     }
+// }
+
+async function obtenerDatosAsync() {
+  try {
+    const result = await new Promise(function (resolve, reject) {
+      setTimeout(function () {
+        if (exito) {
+          resolve("Datos obtenidos con éxito");
+        } else {
+          reject("Error al obtener los datos");
+        }
+      }, 2000);
+    });
+    console.log("Ejercicio 1-4 promise: " + result);
+  } catch (err) {
+    console.error("Ejercicio 1-4 promise: " + err);
+  }
 }
+
 obtenerDatosAsync();
 //----------------------------------------------------------------
 
-
-
 // Ejercicio 2 ----------------------------------------------------
 const fetchPromesa = fetch("https://api.restful-api.dev/objects/7")
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(recurso) {
-        console.log("Ejercicio 2 recurso: " + recurso);
-        for (const key in recurso) {
-            console.log("Ejercicio 2: " + key + ": " + recurso[key]);
-        }
-    })
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (recurso) {
+    console.log("Ejercicio 2 recurso: ");
+    console.table(recurso);
+  });
 //----------------------------------------------------------------
 
 // Ejercicio 4 fetchPromesaAsync ---------------------------------
+// async function fetchPromesaAsync() {
+//   try {
+//     var response = await fetch("https://api.restful-api.dev/objects/7");
+//     if (!response.ok) {
+//       throw new Error("Error al obtener el recurso");
+//       console.error("Ejercicio 4 fetch: throw new Error");
+//     }
+//     var recurso = await response.json();
+//     for (const key in recurso) {
+//       console.log("Ejercicio 4 fetch: " + key + ": " + recurso[key]);
+//     }
+//   } catch (error) {
+//     console.error("Ejercicio 4 fetch: " + error);
+//   }
+// }
+
+// Correccion
 async function fetchPromesaAsync() {
-    try {
-        const response = await fetch("https://api.restful-api.dev/objects/7");
-        if (!response.ok) {
-            // throw new Error("Error al obtener el recurso"); va al catch
-            throw new Error("Error al obtener el recurso");
-        }
-        const recurso = await response.json();
-        for (const key in recurso) {
-            console.log("Ejercicio 4 fetch: " + key + ": " + recurso[key]);
-        }
-    } catch (error) {
-        console.error("Ejercicio 4 fetch: " + error);
+  try {
+    const response = await fetch("https://api.restful-api.dev/objects/7");
+    if (!response.ok) {
+      throw new Error("Error al obtener el recurso");
     }
+    const recurso = await response.json();
+    console.log("Ejercicio 4 fetch: ");
+    console.table(recurso);
+  } catch (error) {
+    console.error("Ejercicio 4 fetch: " + error);
+  }
 }
 fetchPromesaAsync();
 //----------------------------------------------------------------
 
-
 // Ejercicio 3 ----------------------------------------------------
-Promise.all([obtenerDatos, fetchPromesa])
-.then(function(respuesta) {
-    console.log("Ejercicio 3 respuesta: " + respuesta);
-})
-.catch(function(error) {
+// Promise.all([obtenerDatos, fetchPromesa])
+//   .then(function (mensaje, recurso) {
+//     console.log("Ejercicio 3 P: " + mensaje);
+//     console.log("Ejercicio 3 F: " + recurso);
+//   })
+//   .catch(function (error) {
+//     console.error("Ejercicio 3 P error: " + error);
+//   });
+
+// Correccion
+
+const fetchPromesaSinResolver = fetch(
+  "https://api.restful-api.dev/objects/7"
+).then((res) => res.json());
+
+Promise.all([obtenerDatos(), fetchPromesaSinResolver])
+  .then(function (result) {
+    console.log("Ejercicio 3 P: " + result[0]);
+    console.log("Ejercicio 3 F: " + JSON.stringify(result[1]));
+  })
+  .catch(function (error) {
     console.error("Ejercicio 3 P error: " + error);
-});
+  });
 //----------------------------------------------------------------
