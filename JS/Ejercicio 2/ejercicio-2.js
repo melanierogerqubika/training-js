@@ -81,12 +81,12 @@ const fetchPromesa = fetch("https://api.restful-api.dev/objects/7")
 // Ejercicio 4 fetchPromesaAsync ---------------------------------
 async function fetchPromesaAsync() {
     try {
-        var response = await fetch("https://api.restful-api.dev/objects/7");
+        const response = await fetch("https://api.restful-api.dev/objects/7");
         if (!response.ok) {
+            // throw new Error("Error al obtener el recurso"); va al catch
             throw new Error("Error al obtener el recurso");
-            console.error("Ejercicio 4 fetch: throw new Error");
         }
-        var recurso = await response.json();
+        const recurso = await response.json();
         for (const key in recurso) {
             console.log("Ejercicio 4 fetch: " + key + ": " + recurso[key]);
         }
@@ -94,16 +94,14 @@ async function fetchPromesaAsync() {
         console.error("Ejercicio 4 fetch: " + error);
     }
 }
-
 fetchPromesaAsync();
 //----------------------------------------------------------------
 
 
 // Ejercicio 3 ----------------------------------------------------
 Promise.all([obtenerDatos, fetchPromesa])
-.then(function(mensaje, recurso) {
-    console.log("Ejercicio 3 P: " + mensaje);
-    console.log("Ejercicio 3 F: " + recurso);
+.then(function(respuesta) {
+    console.log("Ejercicio 3 respuesta: " + respuesta);
 })
 .catch(function(error) {
     console.error("Ejercicio 3 P error: " + error);
